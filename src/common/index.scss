@@ -1,0 +1,20 @@
+.search-select.container {
+  margin: 2em auto;
+}
+.select-dropdown {
+  text-align: left;
+}
+
+input.ant-input {
+  border: 1px solid black;
+  text-transform: uppercase;
+  color: black;
+  height: 48px;
+  padding-left: 41px;
+}
+
+.ant-input-affix-wrapper span.ant-input-suffix {
+  font-size: 17px;
+  left: 12px;
+  right: inherit;
+}

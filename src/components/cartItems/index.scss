@@ -1,0 +1,89 @@
+.component-quantity-input {
+  display: block;
+  margin-left: 30px;
+}
+.component-quantity-input * {
+  display: inline-block;
+}
+.component-quantity-input span {
+  margin-left: 8px;
+  margin-right: 8px;
+  background: silver;
+  padding: 5px;
+  width: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.delete-increse {
+  display: flex;
+}
+
+.delete-increse .delete {
+  border: 1px solid #000000;
+  border-radius: 0;
+  height: 28px;
+}
+
+.delete-increse span {
+  width: 28px;
+  background: white;
+  font-size: 23px;
+  border: 1px solid black;
+  height: 28px;
+  line-height: 13px;
+}
+
+.delete-increse .delete span {
+  width: auto;
+  border: none;
+  font-size: 16px;
+  background: transparent;
+  line-height: inherit;
+}
+
+.delete-increse .component-quantity-input input {
+  height: 28px;
+  border: none;
+  width: 35px;
+  text-align: center;
+}
+
+.continue-shopping {
+  border: 1px solid black;
+  display: block;
+  padding: 15px;
+  margin: 15px 0;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  text-align: center;
+  &:hover {
+    color: #000;
+  }
+}
+
+a.checkout {
+  border: 1px solid black;
+  display: block;
+  padding: 15px;
+  margin: 15px 0;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  background: black;
+}
+
+.checkout-box {
+  background: #e5eaf1;
+  padding: 40px;
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 30px;
+}

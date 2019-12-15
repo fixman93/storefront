@@ -1,0 +1,30 @@
+header {
+  padding-top: 3em;
+  text-align: center;
+}
+
+.nav {
+  margin: 3em 0;
+  ul {
+    padding: 0;
+    list-style: none;
+    li {
+      display: inline-block;
+      margin: 0 1em;
+      a {
+        color: #82868f;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.cart {
+  text-align: right;
+  span {
+    text-transform: uppercase;
+    margin-left: 0.5em;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
