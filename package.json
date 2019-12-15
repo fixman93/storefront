@@ -20,7 +20,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0"
   },
-  "proxy": "https://staging.admin.swiftlane.com/",
+  "proxy": "https://api-test.services.distll.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
