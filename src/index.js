@@ -14,9 +14,9 @@ const routing = (
   <Router>
     <div>
       <Route exact path='/' component={App} />
-      <Route path='/detail' component={Detail} />
-      <Route path='/search' component={Search} />
-      <Route path='/cart' component={Cart} />
+      <Route exact path='/detail' component={Detail} />
+      <Route exact path='/search' component={Search} />
+      <Route exact path='/cart' component={Cart} />
     </div>
   </Router>
 );
