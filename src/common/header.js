@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { cartActions } from "../actions/cart.actions";
+import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo.svg";
 import cart from "../assets/images/cart.svg";
 import "./header.scss";
 class Header extends Component {
+  componentDidMount() {
+    this.props.dispatch(cartActions.getCart());
+  }
   render() {
     return (
       <header>
@@ -41,8 +47,10 @@ class Header extends Component {
             </ul>
           </nav>
           <div className='cart'>
-            <img src={cart} alt='Cart' />
-            <span>Cart (0)</span>
+            <Link to='/cart'>
+              <img src={cart} alt='Cart' />
+              <span>Cart ({this.props.cart && this.props.cart.length})</span>
+            </Link>
           </div>
         </div>
       </header>
@@ -50,4 +58,11 @@ class Header extends Component {
   }
 }
 
-export default Header;
+function mapStateToProps(state) {
+  const cart = state.cart && state.cart.items ? state.cart.items : [];
+  return {
+    cart
+  };
+}
+
+export default connect(mapStateToProps)(Header);

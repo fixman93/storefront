@@ -3,6 +3,7 @@ import Header from "../common/header";
 import { connect } from "react-redux";
 import Footer from "../common/footer/index";
 import { siteActions } from "../actions/product.actions";
+import { cartActions } from "../actions/cart.actions";
 import { Row, Col, Breadcrumb, Button } from "antd";
 import article from "../assets/images/article.png";
 import queryString from "query-string";
@@ -22,16 +23,44 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productID: null
+      productID: null,
+      quantity: 1
     };
   }
+
+  handleIncrement = (e) => {
+    this.setState({ quantity: this.state.quantity + 1 });
+  };
+
+  handleDecrement = (e) => {
+    if (this.state.quantity > 1) {
+      this.setState({ quantity: this.state.quantity - 1 });
+    }
+  };
+
+  addToCart = (value) => {
+    const { quantity } = this.state;
+    console.log("Value", value);
+    console.log("QUANTITY", this.state.quantity);
+    let operations = {};
+    operations = {
+      operations: [
+        {
+          productId: value.id,
+          variantId: value.variants[0].id.toString(),
+          quantity: quantity
+        }
+      ]
+    };
+    console.log("eeeeeee", operations);
+    this.props.dispatch(cartActions.updateCart(operations));
+  };
   render() {
     const { products } = this.props;
     const { productID } = this.state;
 
     let detailProduct =
       products && products.filter((key) => key.id == productID);
-    console.log("PRODUCTS", detailProduct);
     return (
       <div className='detail-page'>
         <Header />
@@ -84,7 +113,20 @@ class Detail extends Component {
                     <li>Size: 13</li>
                     <li>Width: Medium</li>
                   </ul>
-                  <Button>ADD TO CART</Button>
+                  <div className='delete-increse detail-increse'>
+                    <div className='component-quantity-input'>
+                      <span onClick={this.handleDecrement}>-</span>
+                      <input
+                        type='text'
+                        value={this.state.quantity}
+                        onChange={() => this.handleChange}
+                      />
+                      <span onClick={this.handleIncrement}>+</span>
+                    </div>
+                  </div>
+                  <Button onClick={() => this.addToCart(detailProduct[0])}>
+                    ADD TO CART
+                  </Button>
                 </Col>
               </Row>
             </div>

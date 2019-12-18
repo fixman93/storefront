@@ -1,12 +1,19 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { Row, Col, Select, Input, Icon } from "antd";
-
+import { siteActions } from "../actions/product.actions";
+import { connect } from "react-redux";
 import "./index.scss";
 const { Option } = Select;
 const { Search } = Input;
 
 class Search_Select extends Component {
   handleChange = (value) => {};
+
+  searchProduct = (value) => {
+    // this.props.searchProd(value)
+    this.props.history.push(`/search?q=${value}`);
+  };
   render() {
     const { sort } = this.props;
     return (
@@ -26,7 +33,7 @@ class Search_Select extends Component {
           <Col span={10}>
             <Search
               placeholder='input search text'
-              onSearch={(value) => console.log(value)}
+              onSearch={(value) => this.searchProduct(value)}
             />
           </Col>
         </Row>
@@ -35,4 +42,4 @@ class Search_Select extends Component {
   }
 }
 
-export default Search_Select;
+export default withRouter(Search_Select);

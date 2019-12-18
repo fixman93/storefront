@@ -81,6 +81,14 @@
     span {
       color: white;
     }
+    &:hover,
+    &:active,
+    &:focus {
+      border: 1px solid #635a27;
+      span {
+        color: #635a27;
+      }
+    }
   }
   ul {
     padding: 0;
@@ -113,4 +121,13 @@
   margin: 4em 0;
   text-align: center;
   font-size: 18px;
+}
+
+.spinner {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }

@@ -1,12 +1,40 @@
 import React, { Component } from "react";
 import Header from "../common/header";
-import Footer from "../common/footer/index";
-import { Row, Col, Breadcrumb } from "antd";
-import article from "../assets/images/article.png";
+import { connect } from "react-redux";
 
+import Footer from "../common/footer/index";
+import { siteActions } from "../actions/product.actions";
+import { Row, Spin, Breadcrumb } from "antd";
+import article from "../assets/images/article.png";
+import queryString from "query-string";
+import Articles from "../components/articles";
 import "./index.scss";
 class Search extends Component {
+  componentDidMount() {
+    const values = queryString.parse(this.props.location.search);
+    this.props.dispatch(siteActions.searchProducts(values.q));
+    if (values.q) {
+      this.setState({
+        searchString: values.q
+      });
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchString: ""
+    };
+  }
   render() {
+    const { searchProducts } = this.props;
+    if (!searchProducts.products) {
+      return (
+        <div className='spinner'>
+          <Spin />
+        </div>
+      );
+    }
     return (
       <div className='search-page'>
         <Header />
@@ -14,33 +42,38 @@ class Search extends Component {
           <div className='container'>
             <div className='breadcrumb'>
               <Breadcrumb>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <a href=''>
-                    <b>"Floral"</b>
-                  </a>
+                  <a href='/'>Home</a>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <b>{this.state.searchString}</b>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
             <div className='search-result'>
-              <span>Search results (1)</span>
+              <span>
+                Search results (
+                {searchProducts && searchProducts.continuationToken ? (
+                  searchProducts.continuationToken
+                ) : (
+                  <span>0</span>
+                )}
+                )
+              </span>
             </div>
             <Row gutter={24}>
-              <Col lg={6} md={8} sm={12} xs={24}>
-                <div className='photo'>
-                  <img src={article} alt='Article' />
+              {searchProducts &&
+              searchProducts.products &&
+              searchProducts.products.length ? (
+                searchProducts.products.map((item) => (
+                  <Articles key={item.scheduleId} product={item} />
+                ))
+              ) : (
+                <div className='empty-search'>
+                  <p>No search results found.</p>
                 </div>
-                <div className='info'>
-                  <b>$420.00</b>
-                  <h3>Beautiful Losers</h3>
-                  <h2>Vans Sk8 Hi Neckface</h2>
-                  <span>Expires: 12/14/19 11:59 PST</span>
-                </div>
-              </Col>
+              )}
             </Row>
-            <div className='empty-search'>
-              <p>No search results found.</p>
-            </div>
           </div>
         </div>
         <Footer />
@@ -49,4 +82,11 @@ class Search extends Component {
   }
 }
 
-export default Search;
+function mapStateToProps(state) {
+  const searchProducts = state.searchProducts ? state.searchProducts : [];
+  return {
+    searchProducts
+  };
+}
+
+export default connect(mapStateToProps)(Search);

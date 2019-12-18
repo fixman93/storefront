@@ -1,12 +1,14 @@
 import { history } from "./../helpers/history";
-import { authHeader } from "./../helpers/auth-header";
+import { authHeader, authHeader2 } from "./../helpers/auth-header";
 import axios from "axios";
 
 export const api = {
   postApi,
   getApi,
   updateApi,
-  deleteApi
+  deleteApi,
+  getApi_Cart,
+  updateApi_Cart
 };
 
 let config = {
@@ -18,6 +20,33 @@ function getApi(url) {
     method: "GET",
     headers: authHeader(),
     url: `${config.apiUrl}` + url
+  };
+  return axios(requestOptions).then(handleResponse);
+}
+
+function getApi_Cart(url) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
+      "x-distll-user-id": 3,
+      "Content-Type": "application/json"
+    },
+    url: `https://api-test.services.distll.com/cart/v1` + url
+  };
+  return axios(requestOptions).then(handleResponse);
+}
+
+function updateApi_Cart(url, payload) {
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
+      "x-distll-user-id": 3,
+      "Content-Type": "application/json"
+    },
+    url: `https://api-test.services.distll.com/cart/v1` + url,
+    data: payload
   };
   return axios(requestOptions).then(handleResponse);
 }
