@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Row, Col, Select, Input, Icon } from "antd";
-import { siteActions } from "../actions/product.actions";
-import { connect } from "react-redux";
+import { Row, Col, Select, Input } from "antd";
+
 import "./index.scss";
 const { Option } = Select;
 const { Search } = Input;
 
-class Search_Select extends Component {
+class SearchSelect extends Component {
   handleChange = (value) => {};
 
   searchProduct = (value) => {
@@ -42,4 +41,4 @@ class Search_Select extends Component {
   }
 }
 
-export default withRouter(Search_Select);
+export default withRouter(SearchSelect);

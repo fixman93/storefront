@@ -1,5 +1,4 @@
-import { history } from "./../helpers/history";
-import { authHeader, authHeader2 } from "./../helpers/auth-header";
+import { authHeader } from "./../helpers/auth-header";
 import axios from "axios";
 
 export const api = {
@@ -8,11 +7,21 @@ export const api = {
   updateApi,
   deleteApi,
   getApi_Cart,
-  updateApi_Cart
+  updateApi_Cart,
+  postApi_Cart,
+  postApi_Order
 };
 
 let config = {
   apiUrl: "https://api-test.services.distll.com/public/v1"
+};
+
+let config2 = {
+  apiUrl: "https://api-test.services.distll.com/cart/v1"
+};
+
+let config3 = {
+  apiUrl: "https://api-test.services.distll.com/order/v1"
 };
 
 function getApi(url) {
@@ -29,10 +38,10 @@ function getApi_Cart(url) {
     method: "GET",
     headers: {
       Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
-      "x-distll-user-id": 3,
+      "x-distll-user-id": 7,
       "Content-Type": "application/json"
     },
-    url: `https://api-test.services.distll.com/cart/v1` + url
+    url: config2.apiUrl + `${url}`
   };
   return axios(requestOptions).then(handleResponse);
 }
@@ -42,10 +51,38 @@ function updateApi_Cart(url, payload) {
     method: "PUT",
     headers: {
       Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
-      "x-distll-user-id": 3,
+      "x-distll-user-id": 7,
       "Content-Type": "application/json"
     },
-    url: `https://api-test.services.distll.com/cart/v1` + url,
+    url: config2.apiUrl + `${url}`,
+    data: payload
+  };
+  return axios(requestOptions).then(handleResponse);
+}
+
+function postApi_Cart(url, payload, customHeaders) {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
+      "x-distll-user-id": 7,
+      "Content-Type": "application/json"
+    },
+    url: config2.apiUrl + `${url}`,
+    data: payload
+  };
+  return axios(requestOptions).then(handleResponse);
+}
+
+function postApi_Order(url, payload, customHeaders) {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
+      "x-distll-user-id": 7,
+      "Content-Type": "application/json"
+    },
+    url: config3.apiUrl + `${url}`,
     data: payload
   };
   return axios(requestOptions).then(handleResponse);

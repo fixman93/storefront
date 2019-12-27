@@ -1,13 +1,11 @@
-import { history } from "../helpers";
 import { api } from "../api/api";
-import { authHeader } from "../helpers/auth-header";
 
 export const productServices = {
   getProducts,
   searchProducts
 };
 
-function getProducts(queryString) {
+function getProducts() {
   return api.getApi(`/products`);
 }
 

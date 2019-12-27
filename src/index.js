@@ -9,6 +9,8 @@ import * as serviceWorker from "./serviceWorker";
 import Search from "./pages/search";
 import Detail from "./pages/detail";
 import Cart from "./pages/cart";
+import Checkout from "./pages/checkout";
+import Payment from "./pages/payment";
 import "antd/dist/antd.css";
 const routing = (
   <Router>
@@ -17,6 +19,8 @@ const routing = (
       <Route exact path='/detail' component={Detail} />
       <Route exact path='/search' component={Search} />
       <Route exact path='/cart' component={Cart} />
+      <Route exact path='/checkout' component={Checkout} />
+      <Route exact path='/payment' component={Payment} />
     </div>
   </Router>
 );

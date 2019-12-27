@@ -6,7 +6,7 @@ import { Row, Spin } from "antd";
 
 import Articles from "./components/articles";
 import { siteActions } from "./actions/product.actions";
-import Search_Select from "./common/search-select";
+import SearchSelect from "./common/search-select";
 import "./App.scss";
 class App extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class App extends Component {
   };
 
   render() {
-    const { products, searchProducts } = this.props;
+    const { products, loading } = this.props;
     if (!products.products) {
       return (
         <div className='spinner'>
@@ -28,8 +28,13 @@ class App extends Component {
     }
     return (
       <div className='App'>
+        {loading ? (
+          <div className='spinner'>
+            <Spin />
+          </div>
+        ) : null}
         <Header />
-        <Search_Select sort={true} searchProd={this.searchProducts} />
+        <SearchSelect sort={true} searchProd={this.searchProducts} />
         <div className='articles'>
           <div className='container'>
             <Row gutter={24}>
@@ -50,9 +55,13 @@ class App extends Component {
 function mapStateToProps(state) {
   const products = state.products ? state.products : [];
   const searchProducts = state.searchProducts ? state.searchProducts : [];
+  const loading = state.ajaxStatus ? state.ajaxStatus.loading : [];
+  const alert = state.alert ? state.alert : [];
   return {
     products,
-    searchProducts
+    searchProducts,
+    loading,
+    alert
   };
 }
 

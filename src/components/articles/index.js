@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import article from "../../assets/images/article.png";
 import { Col } from "antd";
 import { Link } from "react-router-dom";
 import moment from "moment";

@@ -5,26 +5,57 @@ import { connect } from "react-redux";
 import { cartActions } from "../actions/cart.actions";
 import { Row, Col } from "antd";
 import { Breadcrumb, Button } from "antd";
-import Search_Select from "../common/search-select";
+import SearchSelect from "../common/search-select";
+import { Spin } from "antd";
 import CartItems from "../components/cartItems";
+import message from "antd/es/message";
 import { Link } from "react-router-dom";
 import "./index.scss";
 class Cart extends Component {
   componentDidMount() {
     this.props.dispatch(cartActions.getCart());
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.alert !== prevProps.alert) {
+      this.showUserMessage();
+    }
+  }
+
+  showUserMessage() {
+    const { alert } = this.props;
+    if (alert && alert.type === "alert-success") {
+      return message.success(alert.message);
+    } else if (alert && alert.type === "alert-danger") {
+      return message.error(alert.message);
+    }
+  }
+
   render() {
-    const { cart } = this.props;
+    const { cart, loading } = this.props;
+
+    let subNumber = 0;
+    let sum = 0;
+    sum =
+      cart &&
+      cart.map((item) => {
+        return (subNumber = subNumber + item.amount);
+      });
     return (
       <div className='cart-page'>
+        {loading ? (
+          <div className='spinner'>
+            <Spin />
+          </div>
+        ) : null}
         <Header />
-        <Search_Select sort={false} />
+        <SearchSelect sort={false} />
         <div className='cartpage'>
           <div className='container'>
             <div className='breadcrumb'>
               <Breadcrumb>
                 <Breadcrumb.Item>
-                  <a href=''>Discover</a>
+                  <a href='/'>Discover</a>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                   <a href=''>
@@ -39,7 +70,13 @@ class Cart extends Component {
             <Row gutter={24}>
               <Col lg={14} md={14} sm={12} xs={24}>
                 {cart
-                  ? cart.map((item) => <CartItems cartItem={item} />)
+                  ? cart.map((item) => (
+                      <CartItems
+                        key={item.productId}
+                        cartItem={item}
+                        cart={cart}
+                      />
+                    ))
                   : null}
               </Col>
               <Col lg={10} md={10} sm={12} xs={24}>
@@ -54,7 +91,7 @@ class Cart extends Component {
                       )}
                       )
                     </span>
-                    <em>$260.00</em>
+                    <em>${subNumber && subNumber}</em>
                   </div>
                   <Link to='/' className='continue-shopping'>
                     Continue Shopping
@@ -75,8 +112,12 @@ class Cart extends Component {
 
 function mapStateToProps(state) {
   const cart = state.cart && state.cart.items ? state.cart.items : [];
+  const alert = state.alert ? state.alert : [];
+  const loading = state.ajaxStatus ? state.ajaxStatus.loading : [];
   return {
-    cart
+    cart,
+    alert,
+    loading
   };
 }
 

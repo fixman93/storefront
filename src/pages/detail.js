@@ -5,10 +5,20 @@ import Footer from "../common/footer/index";
 import { siteActions } from "../actions/product.actions";
 import { cartActions } from "../actions/cart.actions";
 import { Row, Col, Breadcrumb, Button } from "antd";
-import article from "../assets/images/article.png";
+import { Spin } from "antd";
+import { Select } from "antd";
+
+import message from "antd/es/message";
 import queryString from "query-string";
 import moment from "moment";
 import "./index.scss";
+
+const { Option, OptGroup } = Select;
+
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
+
 class Detail extends Component {
   componentDidMount() {
     const values = queryString.parse(this.props.location.search);
@@ -20,12 +30,28 @@ class Detail extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.alert !== prevProps.alert) {
+      this.showUserMessage();
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       productID: null,
       quantity: 1
     };
+    this.showUserMessage = this.showUserMessage.bind(this);
+  }
+
+  showUserMessage() {
+    const { alert } = this.props;
+    if (alert && alert.type === "alert-success") {
+      return message.success(alert.message);
+    } else if (alert && alert.type === "alert-danger") {
+      return message.error(alert.message);
+    }
   }
 
   handleIncrement = (e) => {
@@ -40,8 +66,6 @@ class Detail extends Component {
 
   addToCart = (value) => {
     const { quantity } = this.state;
-    console.log("Value", value);
-    console.log("QUANTITY", this.state.quantity);
     let operations = {};
     operations = {
       operations: [
@@ -52,17 +76,22 @@ class Detail extends Component {
         }
       ]
     };
-    console.log("eeeeeee", operations);
     this.props.dispatch(cartActions.updateCart(operations));
   };
   render() {
-    const { products } = this.props;
+    const { products, loading } = this.props;
     const { productID } = this.state;
 
     let detailProduct =
       products && products.filter((key) => key.id == productID);
+    console.log("variants", detailProduct);
     return (
       <div className='detail-page'>
+        {loading ? (
+          <div className='spinner'>
+            <Spin />
+          </div>
+        ) : null}
         <Header />
         {detailProduct && detailProduct.length ? (
           <div className='articles'>
@@ -109,9 +138,11 @@ class Detail extends Component {
                       .format("DD-MM-YYYY HH:mm")}
                   </span>
                   <ul>
-                    <li>Color: Black</li>
-                    <li>Size: 13</li>
-                    <li>Width: Medium</li>
+                    <li>
+                      {detailProduct[0].options[0]} :{" "}
+                      {detailProduct[0].variants &&
+                        detailProduct[0].variants[0].title}
+                    </li>
                   </ul>
                   <div className='delete-increse detail-increse'>
                     <div className='component-quantity-input'>
@@ -142,8 +173,12 @@ function mapStateToProps(state) {
   const products = state.products
     ? state.products && state.products.products
     : [];
+  const loading = state.ajaxStatus ? state.ajaxStatus.loading : [];
+  const alert = state.alert ? state.alert : [];
   return {
-    products
+    products,
+    loading,
+    alert
   };
 }
 
