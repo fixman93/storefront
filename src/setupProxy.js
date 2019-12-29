@@ -2,7 +2,7 @@ const proxy = require("http-proxy-middleware");
 
 module.exports = function(app) {
   app.use(
-    proxy(["/public", "/order"], {
+    proxy(["/public"], {
       target: "http://api-test.services.distll.com",
       changeOrigin: true
     })
