@@ -6,7 +6,9 @@ import { Breadcrumb } from "antd";
 import Footer from "../common/footer/index";
 import Form from "antd/es/form";
 import Input from "antd/es/input";
+import message from "antd/es/message";
 import Button from "antd/es/button";
+import { Spin } from "antd";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 function hasErrors(fieldsError) {
@@ -19,10 +21,28 @@ class Checkout extends Component {
     this.props.dispatch(cartActions.getCart());
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.shipping_address.isInputAddressValidated !==
+      prevProps.shipping_address.isInputAddressValidated
+    ) {
+      this.setState({
+        validForm: this.props.shipping_address.isInputAddressValidated
+      });
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      test: false,
+      validForm: null
+    };
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log("vvvv", values);
       const shipping_address = {
         zip: values.zip,
         address2: values.address2,
@@ -30,6 +50,10 @@ class Checkout extends Component {
         address1: values.address1,
         state: values.state
       };
+      localStorage.setItem(
+        "shipping_address",
+        JSON.stringify(shipping_address)
+      );
       this.props.dispatch(cartActions.shipping_Address(shipping_address));
     });
   };
@@ -37,11 +61,16 @@ class Checkout extends Component {
   redirectToPayment = () => {
     this.props.history.push("/payment");
   };
+
+  showAlertMessage = () => {
+    message.error("Please check your address");
+  };
   render() {
     if (this.props.shipping_address.isInputAddressValidated) {
       this.redirectToPayment();
     }
-    const { cart } = this.props;
+    console.log("eeeee", this.state.validForm);
+    const { cart, loading } = this.props;
     const {
       getFieldDecorator,
       getFieldsError,
@@ -58,14 +87,17 @@ class Checkout extends Component {
     const zipError = isFieldTouched("zip") && getFieldError("zip");
 
     let subNumber = 0;
-    let sum = 0;
-    sum =
-      cart &&
+    cart &&
       cart.map((item) => {
         return (subNumber = subNumber + item.amount);
       });
     return (
       <div className='cart-page'>
+        {loading ? (
+          <div className='spinner'>
+            <Spin />
+          </div>
+        ) : null}
         <div className='cartpage'>
           <div className='container'>
             <div className='breadcrumb'>
@@ -74,9 +106,7 @@ class Checkout extends Component {
                   <a href='/'>Discover</a>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <a href=''>
-                    <b>Shopping Cart</b>
-                  </a>
+                  <b>Shopping Cart</b>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -158,6 +188,9 @@ class Checkout extends Component {
                       ]
                     })(<Input placeholder='Zip' />)}
                   </Form.Item>
+                  {this.state.validForm === false ? (
+                    <span className='form-error'>Please check your form</span>
+                  ) : null}
                   <div className='modalBottom'>
                     <Button
                       type='primary'
@@ -196,9 +229,11 @@ class Checkout extends Component {
 function mapStateToProps(state) {
   const shipping_address = state.shipping_address ? state.shipping_address : [];
   const cart = state.cart && state.cart.items ? state.cart.items : [];
+  const loading = state.ajaxStatus ? state.ajaxStatus.loading : [];
   return {
     shipping_address,
-    cart
+    cart,
+    loading
   };
 }
 

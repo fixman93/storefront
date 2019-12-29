@@ -14,7 +14,7 @@
 .cart-page {
   .cart-item {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: space-between;
     flex-flow: wrap;
     border-bottom: 1px solid #e5eaf1;
@@ -129,4 +129,10 @@
       border-color: #635a27;
     }
   }
+}
+
+span.form-error {
+  display: block;
+  color: red;
+  text-align: center;
 }

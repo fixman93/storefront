@@ -4,7 +4,7 @@ import Footer from "../common/footer/index";
 import { connect } from "react-redux";
 import { cartActions } from "../actions/cart.actions";
 import { Row, Col } from "antd";
-import { Breadcrumb, Button } from "antd";
+import { Breadcrumb } from "antd";
 import SearchSelect from "../common/search-select";
 import { Spin } from "antd";
 import CartItems from "../components/cartItems";
@@ -35,9 +35,8 @@ class Cart extends Component {
     const { cart, loading } = this.props;
 
     let subNumber = 0;
-    let sum = 0;
-    sum =
-      cart &&
+
+    cart &&
       cart.map((item) => {
         return (subNumber = subNumber + item.amount);
       });
@@ -58,9 +57,7 @@ class Cart extends Component {
                   <a href='/'>Discover</a>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <a href=''>
-                    <b>Shopping Cart</b>
-                  </a>
+                  <b>Shopping Cart</b>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Button } from "antd";
 import { siteActions } from "../../actions/product.actions";
 import { cartActions } from "../../actions/cart.actions";
-import { Spin } from "antd";
 import "./index.scss";
 class CartItem extends Component {
   componentDidMount() {
@@ -64,7 +63,7 @@ class CartItem extends Component {
   };
   handleChange = (e) => {
     var value = e.target.value.replace(/[^0-9]/, "");
-    value = value == "" ? 1 : value;
+    value = value === "" ? 1 : value;
     value = parseInt(value);
     this.setState({ quantity: value });
   };
@@ -84,10 +83,10 @@ class CartItem extends Component {
     this.props.dispatch(cartActions.updateCart(operations));
   };
   render() {
-    const { cartItem, products, loading } = this.props;
+    const { cartItem, products } = this.props;
 
     let cartItems =
-      products && products.filter((key) => key.id == cartItem.productId);
+      products && products.filter((key) => key.id === cartItem.productId);
     return (
       <div className='cart-item'>
         {cartItems && cartItems[0] ? (
@@ -98,7 +97,7 @@ class CartItem extends Component {
                   <Spin />
                 </div>
               ) : null} */}
-              <img src={cartItems[0].imageUrl} alt='Photo' />
+              <img src={cartItems[0].imageUrl} alt='Icon' />
             </div>
             <div className='info'>
               <h2>{cartItems[0].title}</h2>

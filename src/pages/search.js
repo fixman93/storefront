@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Footer from "../common/footer/index";
 import { siteActions } from "../actions/product.actions";
 import { Row, Spin, Breadcrumb } from "antd";
-import article from "../assets/images/article.png";
 import queryString from "query-string";
 import Articles from "../components/articles";
 import "./index.scss";

@@ -10,11 +10,10 @@ class PaymentForm extends Component {
   }
 
   async submit(ev) {
-    let { token } = this.props.stripe.createToken().then(({ token, error }) => {
+    this.props.stripe.createToken().then(({ token, error }) => {
       if (error) {
         message.error(error.message);
       } else {
-        console.log("token", token);
         localStorage.setItem("tokenID", token.id);
       }
     });

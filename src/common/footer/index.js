@@ -6,10 +6,10 @@ class Footer extends Component {
       <footer className='footer'>
         <ul>
           <li>
-            <a href=''>Terms</a>
+            <a href='/'>Terms</a>
           </li>
           <li>
-            <a href='#'>Privacy Policy</a>
+            <a href='/'>Privacy Policy</a>
           </li>
         </ul>
         <p>Site and all contents ©2005-2019 Jonathan LeVine Gallery</p>

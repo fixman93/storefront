@@ -1,21 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DatePicker } from "antd";
 import { cartActions } from "../actions/cart.actions";
 import { Row, Col } from "antd";
 import { Breadcrumb } from "antd";
 import Footer from "../common/footer/index";
 import Form from "antd/es/form";
-import Input from "antd/es/input";
-import Button from "antd/es/button";
 import PaymentForm from "../components/paymentForm";
 import { Elements, StripeProvider } from "react-stripe-elements";
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some((field) => fieldsError[field]);
-}
+
 class Payment extends Component {
   componentDidMount() {
-    const { cart_Summary } = this.props;
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
     this.props.dispatch(cartActions.cart_Summary());
@@ -28,25 +22,11 @@ class Payment extends Component {
   };
   render() {
     const { cart } = this.props;
-    const {
-      getFieldDecorator,
-      getFieldsError,
-      getFieldError,
-      isFieldTouched
-    } = this.props.form;
+
     // Only show error after a field is touched.
-    const cardNumberError =
-      isFieldTouched("card_number") && getFieldError("card_number");
-    const expirationError =
-      isFieldTouched("expiration") && getFieldError("expiration");
-    const CVVError = isFieldTouched("CVV") && getFieldError("CVV");
-    const BillingError =
-      isFieldTouched("Billing_Zip_Code") && getFieldError("Billing_Zip_Code");
-    const emailError = isFieldTouched("email") && getFieldError("email");
     let subNumber = 0;
-    let sum = 0;
-    sum =
-      cart &&
+
+    cart &&
       cart.map((item) => {
         return (subNumber = subNumber + item.amount);
       });
@@ -60,9 +40,7 @@ class Payment extends Component {
                   <a href='/'>Discover</a>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  <a href=''>
-                    <b>Shopping Cart</b>
-                  </a>
+                  <b>Shopping Cart</b>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -83,78 +61,6 @@ class Payment extends Component {
                     </Elements>
                   </div>
                 </StripeProvider>
-                {/* <Form
-                  onSubmit={this.handleSubmit}
-                  ref='form'
-                  className='login-form'>
-                  <div className='labelTitle'>Payment</div>
-                  <Form.Item
-                    validateStatus={cardNumberError ? "error" : ""}
-                    help={cardNumberError || ""}
-                    className='address-search'>
-                    {getFieldDecorator("card_number", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "*Card Number is mandatory!"
-                        }
-                      ]
-                    })(<Input placeholder='Card Number' />)}
-                  </Form.Item>
-                  <Form.Item
-                    validateStatus={expirationError ? "error" : ""}
-                    help={expirationError || ""}
-                    className='address-search'>
-                    {getFieldDecorator("expiration", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "*Expiration date is mandatory!"
-                        }
-                      ]
-                    })(<DatePicker onChange={this.changeDatePicker} />)}
-                  </Form.Item>
-                  <Form.Item
-                    validateStatus={CVVError ? "error" : ""}
-                    help={CVVError || ""}
-                    className='address-search'>
-                    {getFieldDecorator("CVV", {
-                      rules: [{ required: true, message: "*CVV is mandatory!" }]
-                    })(<Input placeholder='CVV' />)}
-                  </Form.Item>
-                  <Form.Item
-                    validateStatus={BillingError ? "error" : ""}
-                    help={BillingError || ""}
-                    className='address-search'>
-                    {getFieldDecorator("Billing_Zip_Code", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "*Billing Zip Code is mandatory!"
-                        }
-                      ]
-                    })(<Input placeholder='Phone Number' />)}
-                  </Form.Item>
-                  <div className='labelTitle'>Contact</div>
-                  <Form.Item
-                    validateStatus={emailError ? "error" : ""}
-                    help={emailError || ""}
-                    className='address-search'>
-                    {getFieldDecorator("email", {
-                      rules: [
-                        { required: true, message: "*Email is mandatory!" }
-                      ]
-                    })(<Input placeholder='Email' />)}
-                  </Form.Item>
-                  <div className='modalBottom'>
-                    <Button
-                      type='primary'
-                      htmlType='submit'
-                      disabled={hasErrors(getFieldsError())}>
-                      Submit
-                    </Button>
-                  </div>
-                </Form> */}
               </Col>
               <Col lg={10} md={10} sm={12} xs={24}>
                 <div className='checkout-box'>

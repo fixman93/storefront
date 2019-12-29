@@ -6,18 +6,11 @@ import { siteActions } from "../actions/product.actions";
 import { cartActions } from "../actions/cart.actions";
 import { Row, Col, Breadcrumb, Button } from "antd";
 import { Spin } from "antd";
-import { Select } from "antd";
 
 import message from "antd/es/message";
 import queryString from "query-string";
 import moment from "moment";
 import "./index.scss";
-
-const { Option, OptGroup } = Select;
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 
 class Detail extends Component {
   componentDidMount() {
@@ -83,8 +76,7 @@ class Detail extends Component {
     const { productID } = this.state;
 
     let detailProduct =
-      products && products.filter((key) => key.id == productID);
-    console.log("variants", detailProduct);
+      products && products.filter((key) => key.id === productID);
     return (
       <div className='detail-page'>
         {loading ? (

@@ -1,4 +1,4 @@
-import { beginAjaxCall, ajaxCallError } from "./ajaxStatusActions";
+import { beginAjaxCall } from "./ajaxStatusActions";
 import { cartService } from "./../services/cart.service";
 import { alertActions } from "./alert.actions";
 export const cartConstants = {
