@@ -13,15 +13,15 @@ export const api = {
 };
 
 let config = {
-  apiUrl: "/public/v1"
+  apiUrl: "https://api-test.services.distll.com/public/v1"
 };
 
 let config2 = {
-  apiUrl: "/cart/v1"
+  apiUrl: "https://api-test.services.distll.com/cart/v1"
 };
 
 let config3 = {
-  apiUrl: "/order/v1"
+  apiUrl: "https://api-test.services.distll.com/order/v1"
 };
 
 function getApi(url) {
