@@ -38,7 +38,7 @@ function getApi_Cart(url) {
     method: "GET",
     headers: {
       Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
-      "x-distll-user-id": 7,
+      "x-distll-user-id": 3,
       "Content-Type": "application/json"
     },
     url: config2.apiUrl + `${url}`
@@ -65,7 +65,7 @@ function postApi_Cart(url, payload, customHeaders) {
     method: "POST",
     headers: {
       Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
-      "x-distll-user-id": 7,
+      "x-distll-user-id": 3,
       "Content-Type": "application/json"
     },
     url: config2.apiUrl + `${url}`,
@@ -79,7 +79,7 @@ function postApi_Order(url, payload, customHeaders) {
     method: "POST",
     headers: {
       Authorization: "Bearer [!h1s_1$_@_$3cr3t!!]",
-      "x-distll-user-id": 7,
+      "x-distll-user-id": 3,
       "Content-Type": "application/json"
     },
     url: config3.apiUrl + `${url}`,
